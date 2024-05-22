@@ -12,7 +12,7 @@ class HelloResponseDtoTest {
 
         HelloResponseDto dto = new HelloResponseDto( name, amount );
 
-        assertEquals( dto.getName(), name );
-        assertEquals( dto.getAmount(), amount );
+        assertEquals( name, dto.getName() );
+        assertEquals( amount, dto.getAmount() );
     }
 }
