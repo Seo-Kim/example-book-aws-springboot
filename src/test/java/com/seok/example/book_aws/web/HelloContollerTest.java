@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith( SpringExtension.class )
+@ExtendWith( SpringExtension.class )  // (jUnit4) RunWith( SpringRunner.class )
 @WebMvcTest( controllers=HelloContoller.class )
 class HelloContollerTest {
     @Autowired
@@ -19,9 +19,9 @@ class HelloContollerTest {
 
     @Test
     public void 정상_동작() throws Exception {
-        mvc.perform( get( "/hello" ) )
-                .andExpect( status().isOk() )
-                .andExpect( content().string( "hello" ) );
+        mvc.perform( get( "/hello" ) )  // 송신 테스트 실행
+                .andExpect( status().isOk() )  // 반환 상태 성공인지 확인
+                .andExpect( content().string( "hello" ) );  // 반환 내용 문구 확인
     }
 
     @Test
@@ -30,11 +30,11 @@ class HelloContollerTest {
         int pAmount = 1000;
 
         mvc.perform( get( "/hello/dto" )
-                        .param( "name", pName )
+                        .param( "name", pName )  // 송신 파라미터
                         .param( "amount", String.valueOf( pAmount ) )
                 )
                 .andExpect( status().isOk() )
-                .andExpect( jsonPath( "$.name", is( pName ) ) )
+                .andExpect( jsonPath( "$.name", is( pName ) ) )  // 반환 json 객체 확인
                 .andExpect( jsonPath( "$.amount", is( pAmount ) ) );
     }
 }
