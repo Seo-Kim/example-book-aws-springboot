@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode( of="id" )
 @NoArgsConstructor
 @Entity
-public class Post {  // camel case로 작성 시 snake case로 연결
+public class PostEntity {  // camel case로 작성 시 snake case로 연결
     @Id
     // H2: "insert into post (author,content,title,id) values (?,?,?,default)"
     // MySQL: "insert into post (author,content,title) values (?,?,?)"
@@ -26,9 +26,15 @@ public class Post {  // camel case로 작성 시 snake case로 연결
     private String author;
 
     @Builder  // 빌더 생성 (lombok)
-    public Post( String title, String content, String author ) {
+    public PostEntity( String title, String content, String author ) {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    public Long update( String title, String content ) {
+        this.title = title;
+        this.content = content;
+        return this.id;
     }
 }

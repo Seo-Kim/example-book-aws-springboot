@@ -27,16 +27,16 @@ class PostRepositoryTest {
         String title = "제목 테스트";
         String content = "본문 내용 테스트";
         String author = "admin@seok.com";
-        Post reqPost = Post.builder()
+        PostEntity reqPost = PostEntity.builder()
                 .title( title )
                 .content( content )
                 .author( author )
                 .build();
 
         postRepository.save( reqPost );
-        List< Post > postList = postRepository.findAll();
+        List< PostEntity > postList = postRepository.findAll();
 
-        Post resPost = postList.get( 0 );
+        PostEntity resPost = postList.get( 0 );
         assertEquals( title, resPost.getTitle() );
         assertEquals( content, resPost.getContent() );
         assertEquals( reqPost, resPost );  // equals() 정의로 동일 id는 같은 객체로 봄
