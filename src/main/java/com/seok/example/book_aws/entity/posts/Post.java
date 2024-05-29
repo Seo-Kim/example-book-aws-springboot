@@ -1,5 +1,6 @@
 package com.seok.example.book_aws.entity.posts;
 
+import com.seok.example.book_aws.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode( of="id" )
 @NoArgsConstructor
 @Entity
-public class Post {  // camel case로 작성 시 snake case로 연결
+public class Post extends BaseTimeEntity {  // camel case로 작성 시 snake case로 연결
     @Id
     // H2: "insert into post (author,content,title,id) values (?,?,?,default)"
     // MySQL: "insert into post (author,content,title) values (?,?,?)"

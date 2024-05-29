@@ -93,5 +93,6 @@ class PostApiControllerTest {
         assertEquals( updateTitle, selectEntity.getTitle() );
         assertEquals( updateContent, selectEntity.getContent() );
         assertEquals( author, selectEntity.getAuthor() );
+        System.out.println( "\n" + selectEntity.getCreatedDate() + "\n" + selectEntity.getModifiedDate() );
     }
 }
