@@ -1,4 +1,4 @@
-package com.seok.example.book_aws.domain.posts;
+package com.seok.example.book_aws.entity.posts;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode( of="id" )
 @NoArgsConstructor
 @Entity
-public class PostEntity {  // camel case로 작성 시 snake case로 연결
+public class Post {  // camel case로 작성 시 snake case로 연결
     @Id
     // H2: "insert into post (author,content,title,id) values (?,?,?,default)"
     // MySQL: "insert into post (author,content,title) values (?,?,?)"
@@ -26,7 +26,7 @@ public class PostEntity {  // camel case로 작성 시 snake case로 연결
     private String author;
 
     @Builder  // 빌더 생성 (lombok)
-    public PostEntity( String title, String content, String author ) {
+    public Post( String title, String content, String author ) {
         this.title = title;
         this.content = content;
         this.author = author;

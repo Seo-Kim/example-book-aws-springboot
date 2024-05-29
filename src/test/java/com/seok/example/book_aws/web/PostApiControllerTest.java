@@ -1,7 +1,7 @@
 package com.seok.example.book_aws.web;
 
-import com.seok.example.book_aws.domain.posts.PostEntity;
-import com.seok.example.book_aws.domain.posts.PostRepository;
+import com.seok.example.book_aws.entity.posts.Post;
+import com.seok.example.book_aws.entity.posts.PostRepository;
 import com.seok.example.book_aws.web.dto.PostDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -83,12 +83,12 @@ class PostApiControllerTest {
         assertEquals( savedId, responseEntity.getBody() );
 
         // 전체 조회
-        List< PostEntity > all = postRepository.findAll();
+        List< Post > all = postRepository.findAll();
 
         assertEquals( HttpStatus.OK, responseSelectEntity.getStatusCode() );
         assertEquals( 1, all.size() );
 
-        PostEntity selectEntity = all.get( 0 );
+        Post selectEntity = all.get( 0 );
         assertEquals( savedId, selectEntity.getId() );
         assertEquals( updateTitle, selectEntity.getTitle() );
         assertEquals( updateContent, selectEntity.getContent() );

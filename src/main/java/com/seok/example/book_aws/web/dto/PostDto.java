@@ -1,6 +1,6 @@
 package com.seok.example.book_aws.web.dto;
 
-import com.seok.example.book_aws.domain.posts.PostEntity;
+import com.seok.example.book_aws.entity.posts.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ public class PostDto {
         private String content;
         private String author;
 
-        public Select( PostEntity entity ) {
+        public Select( Post entity ) {
             this.id = entity.getId();
             this.title = entity.getTitle();
             this.content = entity.getContent();
@@ -36,8 +36,8 @@ public class PostDto {
             this.author = author;
         }
 
-        public PostEntity toEntity() {
-            return PostEntity.builder()
+        public Post toEntity() {
+            return Post.builder()
                     .title( title )
                     .content( content )
                     .author( author )

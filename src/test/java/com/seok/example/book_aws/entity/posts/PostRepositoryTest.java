@@ -1,4 +1,4 @@
-package com.seok.example.book_aws.domain.posts;
+package com.seok.example.book_aws.entity.posts;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -27,16 +27,16 @@ class PostRepositoryTest {
         String title = "제목 테스트";
         String content = "본문 내용 테스트";
         String author = "admin@seok.com";
-        PostEntity reqPost = PostEntity.builder()
+        Post reqPost = Post.builder()
                 .title( title )
                 .content( content )
                 .author( author )
                 .build();
 
         postRepository.save( reqPost );
-        List< PostEntity > postList = postRepository.findAll();
+        List< Post > postList = postRepository.findAll();
 
-        PostEntity resPost = postList.get( 0 );
+        Post resPost = postList.get( 0 );
         assertEquals( title, resPost.getTitle() );
         assertEquals( content, resPost.getContent() );
         assertEquals( reqPost, resPost );  // equals() 정의로 동일 id는 같은 객체로 봄
