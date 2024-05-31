@@ -5,7 +5,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class PostDto {
+    @Getter
+    @NoArgsConstructor
+    public static class List {
+        private Long id;
+        private String title;
+        private String author;
+        private LocalDateTime modifiedDate;
+
+        public List( Post entity ) {
+            this.id = entity.getId();
+            this.title = entity.getTitle();
+            this.author = entity.getAuthor();
+            this.modifiedDate = entity.getModifiedDate();
+        }
+    }
+
     @Getter
     @NoArgsConstructor
     public static class Select {
