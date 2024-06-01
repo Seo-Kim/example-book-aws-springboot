@@ -1,4 +1,4 @@
-const post_save = {
+const common = {
     init: function() {
         const _this = this;
         $( "#btn-save" ).on( "click", function() {
@@ -27,4 +27,4 @@ const post_save = {
     },
 };
 
-post_save.init();
+common.init();
