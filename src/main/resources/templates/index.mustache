@@ -13,7 +13,7 @@
     </div>
     <br>
     <!--목록 출력-->
-    <table class="table table-horizontal table-bordered">
+    <table class="table table-horizontal table-bordered table-hover">
         <thead class="thead-strong">
         <tr>
             <th>번호</th>
@@ -24,17 +24,23 @@
         </thead>
         <tbody id="tbody">
         {{# posts }}
-        <tr>
+        <tr data-id="{{ id }}" style="cursor: pointer;">
             <td>{{ id }}</td>
-            <td>{{ title }}</td>
+            <td class="text-primary text-decoration-underline">{{ title }}</td>
             <td>{{ author }}</td>
             <td>{{ modifiedDate }}</td>
         </tr>
         {{/ posts }}
+        {{^ posts }}
+        <tr>
+            <td colspan="4">조회된 내용이 없습니다</td>
+        </tr>
+        {{/posts}}
         </tbody>
     </table>
 </div>
 
 {{> layout/footer }}
+<script src="/js/app/index.js"></script>
 </body>
 </html>
