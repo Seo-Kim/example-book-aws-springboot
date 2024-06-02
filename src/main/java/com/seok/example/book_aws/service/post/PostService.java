@@ -41,4 +41,13 @@ public class PostService {
                 .map( PostDto.List::new )
                 .collect( Collectors.toList() );
     }
+
+    @Transactional
+    public Long delete( Long id ) {
+        Post entity = postRepository.findById( id )
+                .orElseThrow( () -> new IllegalArgumentException( "게시글을 찾을 수 없습니다 (id: " + id + ")" ) );
+
+        postRepository.delete( entity );
+        return id;
+    }
 }

@@ -24,4 +24,9 @@ public class PostApiController {
     public PostDto.Select findById( @PathVariable Long id ) {
         return postService.findById( id );
     }
+
+    @DeleteMapping( "/api/v1/posts/{id}" )
+    public Long delete( @PathVariable Long id ) {
+        return postService.delete( id );
+    }
 }
