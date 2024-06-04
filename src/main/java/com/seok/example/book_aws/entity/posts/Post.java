@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter  // 수정 시 명확한 의도를 반영하기 위해 Setter 없이 직접 메서드 작성
-@EqualsAndHashCode( of="id" )
+@EqualsAndHashCode( of="id", callSuper = false )
 @NoArgsConstructor
 @Entity
 public class Post extends BaseTimeEntity {  // camel case로 작성 시 snake case로 연결
