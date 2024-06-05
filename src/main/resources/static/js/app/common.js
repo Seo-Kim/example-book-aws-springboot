@@ -14,8 +14,9 @@ const common = {
     save: function() {
         const data = {
             title: $( "#title" ).val(),
-            author: $( "#author" ).val(),
+            author: $( "#author" ).html(),
             content: $( "#content" ).val(),
+            createId: userId,
         };
 
         $.ajax( {
@@ -40,6 +41,7 @@ const common = {
         const data = {
             title: $( "#title" ).val(),
             content: $( "#content" ).val(),
+            modifyId: userId,
         };
 
         $.ajax( {

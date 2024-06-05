@@ -31,12 +31,14 @@ public class PostDto {
         private String title;
         private String content;
         private String author;
+        private Long createId;
 
         public Select( Post entity ) {
             this.id = entity.getId();
             this.title = entity.getTitle();
             this.content = entity.getContent();
             this.author = entity.getAuthor();
+            this.createId = entity.getCreateId();
         }
     }
 
@@ -46,12 +48,14 @@ public class PostDto {
         private String title;
         private String content;
         private String author;
+        private Long createId;
 
         @Builder
-        public SaveRequest( String title, String content, String author ) {
+        public SaveRequest( String title, String content, String author, Long createId ) {
             this.title = title;
             this.content = content;
             this.author = author;
+            this.createId = createId;
         }
 
         public Post toEntity() {
@@ -59,6 +63,7 @@ public class PostDto {
                     .title( title )
                     .content( content )
                     .author( author )
+                    .createId( createId )
                     .build();
         }
     }
@@ -68,11 +73,13 @@ public class PostDto {
     public static class UpdateRequest {
         private String title;
         private String content;
+        private Long modifyId;
 
         @Builder
-        public UpdateRequest( String title, String content ) {
+        public UpdateRequest( String title, String content, Long modifyId ) {
             this.title = title;
             this.content = content;
+            this.modifyId = modifyId;
         }
     }
 }

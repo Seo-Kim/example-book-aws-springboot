@@ -26,9 +26,10 @@ public class PostService {
     public Long update( Long id, PostDto.UpdateRequest requestDto ) {
         Post entity = postRepository.findById( id )
                 .orElseThrow( () -> new IllegalArgumentException( "게시글을 찾을 수 없습니다 (id: " + id + ")" ) );
-        return entity.update( requestDto.getTitle(), requestDto.getContent() );
+        return entity.update( requestDto.getTitle(), requestDto.getContent(), requestDto.getModifyId() );
     }
 
+    @Transactional( readOnly=true )
     public PostDto.Select findById( Long id ) {
         Post entity = postRepository.findById( id )
                 .orElseThrow( () -> new IllegalArgumentException( "게시글을 찾을 수 없습니다 (id: " + id + ")" ) );

@@ -1,5 +1,6 @@
 package com.seok.example.book_aws.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -17,4 +18,17 @@ public class BaseTimeEntity {
     private LocalDateTime createdDate;
     @LastModifiedDate
     private LocalDateTime modifiedDate;
+
+    @Column( updatable=false )
+    private Long createId;
+    private Long modifyId;
+
+    public void create( Long createId ) {
+        this.createId = createId;
+        this.modifyId = createId;
+    }
+
+    public void modify( Long modifyId ) {
+        this.modifyId = modifyId;
+    }
 }

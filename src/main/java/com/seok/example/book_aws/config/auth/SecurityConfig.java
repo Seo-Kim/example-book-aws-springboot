@@ -23,7 +23,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests( authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .requestMatchers( "/", "/css/**", "/images/**", "/js/**", "/h2-console/**" ).permitAll()
-                        .requestMatchers( "/api/v1/**" ).hasRole( Role.USER.name() )
+                        .requestMatchers( "/api/v1/**" ).hasAnyRole( Role.USER.name(), Role.ADMIN.name() )
                         .anyRequest().authenticated()
                 )
                 .logout( logout -> logout.logoutSuccessUrl( "/" ) )
