@@ -26,11 +26,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser( OAuth2UserRequest userRequest ) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser( userRequest );
         // 로그인 서비스 구분 코드 (google, naver, kakao 등)
-        //String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
         // 로그인 PK가 될 필드
         String userNameAttrKey = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        OAuthAttributes attributes = OAuthAttributes.of( userNameAttrKey, oAuth2User.getAttributes() );
+        OAuthAttributes attributes = OAuthAttributes.of( registrationId, userNameAttrKey, oAuth2User.getAttributes() );
 
         Users users = saveOrUpdate( attributes );
         httpSession.setAttribute( "user", new SessionUser( users ) );

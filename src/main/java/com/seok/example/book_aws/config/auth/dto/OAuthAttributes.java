@@ -30,8 +30,11 @@ public class OAuthAttributes {
      *
      * @param attributes OAuth2User 반환 정보
      */
-    public static OAuthAttributes of( String userNameAttrKey, Map< String, Object > attributes ) {
-        return ofGoogle( userNameAttrKey, attributes );
+    public static OAuthAttributes of( String registrationId, String userNameAttrKey, Map< String, Object > attributes ) {
+        return switch( registrationId ) {
+            case "naver" -> ofNaver( userNameAttrKey, attributes );
+            default -> ofGoogle( userNameAttrKey, attributes );
+        };
     }
 
     private static OAuthAttributes ofGoogle( String userNameAttrKey, Map< String, Object > attributes ) {
@@ -41,6 +44,17 @@ public class OAuthAttributes {
                 .name( (String) attributes.get( "name" ) )
                 .email( (String) attributes.get( "email" ) )
                 .picture( (String) attributes.get( "picture" ) )
+                .build();
+    }
+
+    private static OAuthAttributes ofNaver( String userNameAttrKey, Map< String, Object > attributes ) {
+        Map< String, Object > response = (Map< String, Object >) attributes.get( "response" );
+        return OAuthAttributes.builder()
+                .nameAttrKey( userNameAttrKey )
+                .attributes( response )
+                .name( (String) response.get( "name" ) )
+                .email( (String) response.get( "email" ) )
+                .picture( (String) response.get( "profile_image" ) )
                 .build();
     }
 
