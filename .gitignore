@@ -4,6 +4,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 application-oauth.properties
+application-db.properties
 
 ### IntelliJ IDEA ###
 .idea
