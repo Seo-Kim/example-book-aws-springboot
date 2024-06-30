@@ -1,0 +1,135 @@
+# GitHub Actions Script
+
+# This workflow uses actions that are not certified by GitHub
+# 이 워크플로는 GitHub가 인증하지 않은 actions를 사용합니다
+# They are provided by a third-party and are governed by separate terms of service, privacy policy, and support documentation
+# 이들은 third-party에 의해 제공되며 별도의 약관, 개인정보 보호 정책 및 지원 문서가 적용됩니다
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# 이 워크플로는 Gradle을 사용하여 Java 프로젝트를 빌드하고 모든 종속성을 캐싱/복원하여 워크플로 실행 시간을 향상시킵니다
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+name: Java CI with Gradle
+
+on:
+  push: # push 발생 시 jobs 실행
+    branches: [ "temp", "master" ]
+  #pull_request:
+  #  branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4 # git checkout (소스 동기화)
+#        with:
+#          # $RUNNER_TEMP 하위 특정한 파일로 known_hosts와 함께 ssh-known-hosts에 추가한 값들이 복사된다고 하는데, 그래서 그 파일이 무엇이고 어떻게 활용할 수 있는지 모르겠다
+#          ssh-known-hosts: "${{ secrets.ACSS_KEY }}"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # setup-java@v4부터 gradle/gradle-build-action 대체
+      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies
+      # 다운로드한 종속성 캐싱을 포함하여 Gradle을 최적으로 구성합니다
+      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+      - name: Setup Gradle
+        # 굳이 특정 버전으로 고정시킬 필요는 없어 보임
+        #uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.5
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+#      # Build 진행 시 Test 함께 진행됨
+#      - name: Test with Gradle Wrapper
+#        id: gradle-test
+#        run: ./gradlew test
+
+#      # Error 발생 시 ci_activity@noreply.github.com에서 메일을 보내주므로 저장소 소유자에게 알림은 작성할 필요 없음
+#      - name: Send email if test failure
+#        if: ${{ !success() && steps.gradle-test.outcome != 'success' }} # continue-on-error 적용 후 결과를 사용하고 싶다면 steps.<step_id>.conclusion
+#        # Marketplace Action: See https://github.com/dawidd6/action-send-mail
+#        uses: dawidd6/action-send-mail@v3
+#        with:
+#          server_address: smtp.daum.net
+#          server_port: 465
+#          username: ${{ secrets.EMAIL_USER }}
+#          password: ${{ secrets.EMAIL_PWRD }}
+#          subject: GitHub Actions Workflow Failure
+#          body: The job 'Test with Gradle' of ${{ github.repository }} has failed
+#          to: ${{ secrets.EMAIL }}
+#          #from: GitHub Actions <no-reply@githubactions.com> # failed: no permitted from-header address
+#          from: GitHub Actions
+#          reply_to: no-reply@githubactions.com
+
+      - name: Build with Gradle Wrapper
+        # if default: success() == 이전 단계가 "모두" 성공하면 true
+        run: ./gradlew build
+
+#      # job 구분한 경우 데이터를 넘겨줄 수 없기 때문에 artifact upload 후 (최장 90일 보관) download하여 사용 > job 하나만 있으면 불필요
+#      - name: Upload artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          # github.repository Context는 "소유자/저장소"로 출력되어 경로처럼 인식됨
+#          #name: ${{ github.repository }}-${{ github.run_id }}-${{ github.run_number }} #: Seo-Kim/example-springboot-1536140711-314
+#          # github.event.repository.name은 저장소 이름만 출력
+#          #name: ${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }} #: example-springboot-1536140711-314
+#          #
+#          # 시간 값을 가진 Context는 github.event.commits[0].timestamp 뿐, 출력 형태는 "[YYYY]-[MM]-[DD]T[HH24]:[mm]:[ss]+09:00"
+#          # ${{ github.event.commits[0].timestamp }} #: 2024-06-23T16:58:21+09:00
+#          # 숫자 외 문자 제거, 일시까지만 (14자리까지) 자르기
+#          # $( echo "${{ github.event.commits[0].timestamp }}" | sed 's/[^0-9]//g' | grep -o '.\{14\}' ) #: 20240623165821
+#          # Context 사용을 고집할 이유가 없음, date 명령어 사용
+#          name: ${{ github.event.repository.name }}-$( date +%Y%m%d%H%M%S ) #: example-springboot-20240623165934
+#          path: build/libs
+
+      # 옵션으로 StrictHostKeyChecking 끄는 것보다 접속할 서버를 허용 목록에 추가하는 게 더 좋아 보임
+      # 서버 접속 시 암호 대신 PEM 사용
+      - name: create KEY files
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ACSS_KEY }}" > ~/.ssh/known_hosts
+          echo "${{ secrets.PRV_PEM_KEY }}" > ./ssh_private_key
+          chmod 400 ./ssh_private_key
+
+      - name: Deploy on Server
+        env:
+          HOST: ${{ secrets.SVR_HOST }}
+          PORT: ${{ secrets.SVR_PORT }}
+          USERNAME: ${{ secrets.SVR_USER }}
+#        run: |
+#          # actions/checkout에 의해 ssh-known-hosts 값이 추가된 파일?
+#          ssh -i "$RUNNER_TEMP/path-to-ssh-key" -p $PORT $USERNAME@$HOST "ls -l ~/app/step2/"
+        run: |
+          JAR_NAME=$( ls -t ./build/libs/ | grep .jar | head -n 1 )
+          echo 'scp start..'
+          scp -i ./ssh_private_key -P $PORT ./build/libs/$JAR_NAME $USERNAME@$HOST:~/app/step2/zip/$( echo $JAR_NAME | sed 's/\.jar$//' )-$( date -d '9 hours' +%Y%m%d%H%M%S ).jar
+          echo 'ssh start..'
+          ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step2/deploy.sh'
+
+#  dependency-submission:
+#    runs-on: ubuntu-22.04
+#    permissions:
+#      contents: write
+#
+#    steps:
+#    - uses: actions/checkout@v4
+#
+#    - name: Set up JDK 17
+#      uses: actions/setup-java@v4
+#      with:
+#        java-version: '17'
+#        distribution: 'temurin'
+#
+#    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies
+#    # 종속성 그래프를 생성하고 제출하여 모든 프로젝트 종속성에 대해 dependencyabot 경고를 활성화합니다
+#    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
+#    - name: Generate and submit dependency graph
+#      uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
