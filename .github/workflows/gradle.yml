@@ -71,7 +71,7 @@ jobs:
 
       - name: Build with Gradle Wrapper
         # if default: success() == 이전 단계가 "모두" 성공하면 true
-        run: ./gradlew build
+        run: ./gradlew clean build
 
 #      # job 구분한 경우 데이터를 넘겨줄 수 없기 때문에 artifact upload 후 (최장 90일 보관) download하여 사용 > job 하나만 있으면 불필요
 #      - name: Upload artifacts
@@ -110,9 +110,10 @@ jobs:
         run: |
           JAR_NAME=$( ls -t ./build/libs/ | grep .jar | head -n 1 )
           echo 'scp start..'
+          scp -i ./ssh_private_key -P $PORT ./scripts/*.sh $USERNAME@$HOST:~/app/step2/scripts
           scp -i ./ssh_private_key -P $PORT ./build/libs/$JAR_NAME $USERNAME@$HOST:~/app/step2/zip/$( echo $JAR_NAME | sed 's/\.jar$//' )-$( date -d '9 hours' +%Y%m%d%H%M%S ).jar
           echo 'ssh start..'
-          ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step2/deploy.sh'
+          ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step2/scripts/deploy.sh'
 
 #  dependency-submission:
 #    runs-on: ubuntu-22.04
