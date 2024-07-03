@@ -115,11 +115,13 @@ jobs:
           echo 'scp start..'
           scp -i ./ssh_private_key -P $PORT ./scripts/*.sh $USERNAME@$HOST:~/app/step3/scripts/
           scp -i ./ssh_private_key -P $PORT ./build/libs/$JAR_NAME $USERNAME@$HOST:~/app/step3/zip/$( echo $JAR_NAME | sed 's/\.jar$//' )-$( date -d '9 hours' +%Y%m%d%H%M%S ).jar
-          echo 'deploy bash start..'
+          echo 'grant bash start..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/stop.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/start.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/health.sh'
+          echo 'stop application..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/stop.sh'
+          echo 'start application..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/start.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/health.sh'
 
