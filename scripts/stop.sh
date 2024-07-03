@@ -8,9 +8,9 @@ source "$( dirname "$ABSPATH" )/profile.sh"
 
 IDLE_PORT=$( find_idle_port )
 echo $'>> Find PID on Running :: '"${IDLE_PORT}"
-#set +e
+set +e
 CURRENT_PID=$( lsof -ti tcp:"${IDLE_PORT}" )
-#set -e
+set -e
 if [ -z "${CURRENT_PID}" ]; then
   echo 'Nothing found PID to Stop'
 else
