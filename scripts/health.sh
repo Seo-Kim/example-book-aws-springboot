@@ -13,13 +13,19 @@ do
   set +e
   sleep 5
   RESPONSE=$( curl -s "http://localhost:${IDLE_PORT}/profile" )
-  echo 'response :: '"${RESPONSE}"
   set -e
+  if [ -z "${RESPONSE}" ]; then
+    echo 'retry.. :: '"${RETRY_COUNT}"
+    continue
+  fi
 
+  echo 'response :: '"${RESPONSE}"
+  set +e
   #UP_COUNT=$( echo ${RESPONSE} | grep 'real' | wc -l )
     ## grep | wc -l: grep 결과의 행 수를 반환
     ## grep -c: 검색 결과의 행 수를 반환
   UP_COUNT=$( echo "${RESPONSE}" | grep -c 'real' )
+  set -e
   if [ "${UP_COUNT}" -ge 1 ]; then
     echo $'>> Health result: Success\nProxy switching..'
     switch_proxy
