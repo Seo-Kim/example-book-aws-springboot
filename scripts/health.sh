@@ -10,8 +10,8 @@ echo '>> Health Check Start! :: '"${IDLE_PORT}"
 
 for RETRY_COUNT in {1..10}
 do
-  sleep 10
-  RESPONSE=$( curl -s 'http://localhost:'"${IDLE_PORT}"'/profile' )
+  sleep 5
+  RESPONSE=$( curl -s "http://localhost:${IDLE_PORT}/profile" )
   echo 'response :: '"${RESPONSE}"
 
   #UP_COUNT=$( echo ${RESPONSE} | grep 'real' | wc -l )
