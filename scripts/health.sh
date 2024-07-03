@@ -13,8 +13,8 @@ do
   set +e
   sleep 5
   RESPONSE=$( curl -s "http://localhost:${IDLE_PORT}/profile" )
-  set -e
   echo 'response :: '"${RESPONSE}"
+  set -e
 
   #UP_COUNT=$( echo ${RESPONSE} | grep 'real' | wc -l )
     ## grep | wc -l: grep 결과의 행 수를 반환
