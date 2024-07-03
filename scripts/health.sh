@@ -11,12 +11,18 @@ echo '>> Health Check Start! :: '"${IDLE_PORT}"
 for RETRY_COUNT in {1..10}
 do
   set +e
-  sleep 5
+  sleep 10
   RESPONSE=$( curl -s "http://localhost:${IDLE_PORT}/profile" )
   set -e
   if [ -z "${RESPONSE}" ]; then
     echo 'retry.. :: '"${RETRY_COUNT}"
-    continue
+
+    if [ "${RETRY_COUNT}" -ge 10 ]; then
+      echo '>> Health result: Fail'
+      exit 1
+    else
+      continue
+    fi
   fi
 
   echo 'response :: '"${RESPONSE}"
