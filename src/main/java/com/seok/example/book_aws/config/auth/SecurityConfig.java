@@ -22,7 +22,7 @@ public class SecurityConfig {
                         .frameOptions( frameOptionsConfig -> frameOptionsConfig.disable() )
                 )
                 .authorizeHttpRequests( authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers( "/", "/css/**", "/images/**", "/js/**", "/h2-console/**" ).permitAll()
+                        .requestMatchers( "/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile" ).permitAll()
                         .requestMatchers( "/api/v1/**" ).hasAnyRole( Role.USER.name(), Role.ADMIN.name() )
                         .anyRequest().authenticated()
                 )
