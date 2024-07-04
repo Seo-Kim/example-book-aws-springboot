@@ -37,15 +37,15 @@ jobs:
       # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies
       # 다운로드한 종속성 캐싱을 포함하여 Gradle을 최적으로 구성합니다
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-      - name: Setup Gradle
-        # 굳이 특정 버전으로 고정시킬 필요는 없어 보임
-        #uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: 8.5
-
-      - name: Grant execute permission
-        run: chmod +x gradlew
+#      - name: Setup Gradle
+#        # 굳이 특정 버전으로 고정시킬 필요는 없어 보임
+#        #uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+#        uses: gradle/actions/setup-gradle@v3
+#        with:
+#          gradle-version: 8.5
+#
+#      - name: Grant execute permission
+#        run: chmod +x gradlew
 
 #      # Build 진행 시 Test 함께 진행됨
 #      - name: Test with Gradle Wrapper
