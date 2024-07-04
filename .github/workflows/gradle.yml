@@ -119,6 +119,7 @@ jobs:
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/stop.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/start.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/health.sh'
+          ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/switch.sh'
           echo 'stop idle application..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/stop.sh'
           echo 'start idle application..'
