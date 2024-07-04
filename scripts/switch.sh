@@ -16,7 +16,7 @@ function switch_proxy() {
     echo '>> NginX reload'
 #    cat ~/app/stdPwd | sudo -S nginx -t
 #    cat ~/app/stdPwd | sudo -S nginx -s reload
-    nginx -t
+    echo "$(nginx -t)"
     nginx -s reload
       ## sudo: a terminal is required to read the apssword; either use the -S option to read from standard input or configure an askpass helper
       ## sudo: a password is required < ssh -t -s "sudo"
