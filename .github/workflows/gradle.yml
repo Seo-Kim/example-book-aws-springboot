@@ -125,7 +125,7 @@ jobs:
           echo 'start idle application..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/start.sh'
           echo 'check starting application successfully..'
-          ssh -i ./ssh_private_key -t -s -p $PORT $USERNAME@$HOST '~/app/step3/scripts/health.sh'
+          ssh -i ./ssh_private_key -t -s -p $PORT $USERNAME@$HOST 'sudo ~/app/step3/scripts/health.sh'
 
 #  dependency-submission:
 #    runs-on: ubuntu-22.04
