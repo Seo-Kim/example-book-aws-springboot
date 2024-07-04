@@ -34,7 +34,7 @@ do
   set -e
   if [ "${UP_COUNT}" -ge 1 ]; then
     echo $'>> Health result: Success\nProxy switching..'
-    switch_proxy
+    echo ~/app/stdPwd | sudo -S switch_proxy
     break
   fi
 
