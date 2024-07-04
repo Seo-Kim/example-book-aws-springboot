@@ -16,7 +16,7 @@ echo '>> Copy to Root :: '"${JAR_NAME}"' > ./'${PROJECT_NAME}
 cp "./zip/${JAR_NAME}" ./${PROJECT_NAME}
 #chmod +x ./${PROJECT_NAME}
 
-echo $'\n>> backup log'
+echo '>> backup log'
 mkdir -p ./log/
 if [ -z "$( find ./ -maxdepth 1 -type f -name 'nohup.out' | head -n 1 )" ]; then
   echo 'Nothing found file to backup'

@@ -8,7 +8,7 @@ ABSPATH=$( readlink -f "$0" )
 source "$( dirname "$ABSPATH" )/profile.sh"
 
 IDLE_PORT=$( find_idle_port )
-echo $'>> Find PID on Running :: '"${IDLE_PORT}"
+echo '>> Find PID on Running :: '"${IDLE_PORT}"
 set +e
 CURRENT_PID=$( lsof -ti tcp:"${IDLE_PORT}" )
   ## lsof:

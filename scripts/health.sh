@@ -17,7 +17,7 @@ do
   set -e
   if [ -z "${RESPONSE}" ]; then
     if [ "${RETRY_COUNT}" -ge 10 ]; then
-      echo '>> Health result: Fail'
+      echo $'\n>> Health result: Fail'
       exit 1
     else
       echo 'retry.. :: '"${RETRY_COUNT}"
@@ -33,13 +33,13 @@ do
     ## grep -c: 검색 결과의 행 수를 반환
   set -e
   if [ "${UP_COUNT}" -ge 1 ]; then
-    echo $'>> Health result: Success\nProxy switching..'
-    echo ~/app/stdPwd | sudo -S switch_proxy
+    echo $'\n>> Health result: Success\nProxy switching..'
+    switch_proxy
     break
   fi
 
   if [ "${RETRY_COUNT}" -ge 10 ]; then
-    echo '>> Health result: Fail'
+    echo $'\n>> Health result: Fail'
     exit 1
   fi
 done
