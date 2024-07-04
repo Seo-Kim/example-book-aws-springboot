@@ -15,10 +15,10 @@ function switch_proxy() {
 
     echo '>> NginX reload'
     #sudo nginx -t
-    sudo nginx -s reload
+#    sudo nginx -s reload
       ## sudo password required
     #service nginx reload
       ## subsystem request failed on channel 0 < ssh -t -s "sudo"
       ## Failed to relaod nginx.service: Interactive authentication required.
-    #systemctl reload nginx
+    systemctl reload nginx
 }
