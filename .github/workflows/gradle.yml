@@ -119,10 +119,11 @@ jobs:
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/stop.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/start.sh'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST 'chmod 744 ~/app/step3/scripts/health.sh'
-          echo 'stop application..'
+          echo 'stop idle application..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/stop.sh'
-          echo 'start application..'
+          echo 'start idle application..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/start.sh'
+          echo 'check starting application successfully..'
           ssh -i ./ssh_private_key -p $PORT $USERNAME@$HOST '~/app/step3/scripts/health.sh'
 
 #  dependency-submission:
