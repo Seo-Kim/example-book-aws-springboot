@@ -21,4 +21,5 @@ function switch_proxy() {
       ## subsystem request failed on channel 0 < ssh -t -s "sudo"
       ## Failed to relaod nginx.service: Interactive authentication required.
     systemctl reload nginx
+      ## Failed to relaod nginx.service: Interactive authentication required.
 }
